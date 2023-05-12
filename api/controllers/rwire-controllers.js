@@ -6,7 +6,9 @@ import { getPatentDetailsQuery } from "../../patentDetials/index.js";
 import { getFinalElasticCountQuery } from "../../count/index.js";
 import { request, response } from "express";
 import { getElasticQueryFilterOptions } from "../../filterOptions/index.js";
+import { getElasticQueryChartData } from "../../cognizance/chart-data/index.js";
 import { getDataFromElastic } from "../database/db.js";
+import {getElasticQueryChartFiltersOptions } from "../../cognizance/chart-filters-options/index.js";
 export const headers = {
   ...{
     Accept: "application/json",
@@ -150,3 +152,67 @@ export const getFilterOptions = async (request, response) => {
   }
   getDataFromElastic({url:`${url}/_search`,elasticQuery,response});
 };
+export const getChartData = async (request, response) => {
+  const {
+    queryToSearch,
+    isNumberWithIncludeSearch = false,
+    dataSize = 0,
+    filters = [],
+    chartFilters=[],
+    field1,
+    field2,
+    isMultiSeries=false,
+    topNumber = 10
+  } = request.body;
+  if(queryToSearch === undefined || queryToSearch === ""){
+    response.status(404).json({ message: "body must contain queryToSearch" });
+    return;
+  }
+  const requestOptions = {
+    queryToSearch,
+    isNumberWithIncludeSearch,
+    dataSize,
+    filters,
+    chartFilters,
+    field1,
+    field2,
+    isMultiSeries,
+    topNumber,
+  };
+
+  let elasticQuery = await getElasticQueryChartData(queryToSearch,requestOptions);
+  getDataFromElastic({url:`${url}/_search`,elasticQuery,response});
+}
+export const getChartFiltersOptions = async (request, response) => {
+  console.log("request.body ",request.body.aggregationfield);
+  const {
+    queryToSearch,
+    isNumberWithIncludeSearch = false,
+    dataSize = 0,
+    filters = [],
+    chartFilters=[],
+    aggregationField,
+    aggregationFilterSearchtext="",
+    aggregationSize=10,
+  } = request.body;
+  if(queryToSearch === undefined || queryToSearch === ""){
+    response.status(404).json({ message: "body must contain queryToSearch" });
+    return;
+  }else if(aggregationField === undefined){
+    response.status(404).json({ message: "body must contain aggregation field" });
+    return;
+  }
+  const requestOptions = {
+    queryToSearch,
+    isNumberWithIncludeSearch,
+    dataSize,
+    filters,
+    chartFilters,
+    aggregationField,
+    aggregationFilterSearchtext,
+    aggregationSize,
+  };
+  let elasticQuery = await getElasticQueryChartFiltersOptions(queryToSearch,requestOptions);
+  getDataFromElastic({url:`${url}/_search`,elasticQuery,response});
+}
+
