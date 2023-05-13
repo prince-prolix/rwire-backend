@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
+import peggy from "../parser/parser.js";
 import { multipleFieldsShortCode } from "../resources/data/combine-field-list.js";
+import { generateQuery } from "./generate-rec-query/index.js";
 
 function balancedString(str) {
   var count = 0,
@@ -23,17 +25,39 @@ function balancedString(str) {
 
   return finalString;
 }
-
+/**
+ *
+ * @param {} rawQuery
+ * @returns
+ */
+export const validationQuery = (rawQuery) => {
+  try {
+    checkSpecialConditions(rawQuery);
+    const cleanedQuery = cleanQuery(rawQuery);
+    // console.log("cleanedQuery ", cleanedQuery);
+    const parser = peggy.parse(cleanedQuery);
+    // console.log("everything is okay rawQuery : " + rawQuery);
+    let dummyWindow = { origQuery: cleanedQuery };
+    generateQuery(dummyWindow, parser, true);
+    // console.log("everything is okay rawQuery : " + dummyWindow.origQuery);
+    return dummyWindow.origQuery;
+  } catch (e) {
+    console.log("syntax error ", e);
+    return false;
+  }
+};
 export const cleanQuery = (query) => {
-  return query
-    .replaceAll("|", "OR")
-    .replaceAll("~", "NOT")
-    .replaceAll("&", "AND")
-    .replaceAll(",", " ")
-    .replaceAll(":", "")
-    .replaceAll(/\s+/g, " ")
-    // .replaceAll(" "," ADJ ") // to replace space with ADJ, else parse will give error of wrong syntax
-    .trim();
+  return (
+    query
+      .replaceAll("|", "OR")
+      .replaceAll("~", "NOT")
+      .replaceAll("&", "AND")
+      .replaceAll(",", " ")
+      .replaceAll(":", "")
+      .replaceAll(/\s+/g, " ")
+      // .replaceAll(" "," ADJ ") // to replace space with ADJ, else parse will give error of wrong syntax
+      .trim()
+  );
 };
 
 export const checkSpecialConditions = (query) => {

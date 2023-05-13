@@ -571,7 +571,7 @@ export const textFieldsList = [
   "TC",
   "CLA",
   "CD",
-  "SS"
+  "SS",
 ];
 
 export const dropdownFieldsCodes = {

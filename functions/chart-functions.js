@@ -9,7 +9,7 @@ export const generateFilterKeysQuery = (filters) => {
     const field = checkFieldTypeKeywordBase(key) ? key : `${key}.keyword`;
     // console.log("filter ", filter[key]);
     filter[key].forEach((i) => {
-    // console.log(i);
+      // console.log(i);
       if (key === "ED") {
         return terms.push({
           range: {
@@ -30,7 +30,7 @@ export const generateFilterKeysQuery = (filters) => {
     });
     // console.log("terms ",terms);
     if (terms.length > 0) {
-       filterQuery.push({
+      filterQuery.push({
         bool: {
           should: terms,
         },

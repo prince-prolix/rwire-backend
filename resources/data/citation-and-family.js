@@ -4,7 +4,8 @@ export const getCitationAndFamilyData = (fields) => {
   let aggrArrayFields = {};
 
   fields.forEach((item) => {
-    aggrArrayFields = {...aggrArrayFields,
+    aggrArrayFields = {
+      ...aggrArrayFields,
       [item]: {
         terms: {
           field: checkFieldTypeKeywordBase(item) ? item : `${item}.keyword`,

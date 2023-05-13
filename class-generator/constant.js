@@ -1,4 +1,3 @@
-
 export const siteUrl = "https://analytics.researchwire.in";
 
 //Elastic data url

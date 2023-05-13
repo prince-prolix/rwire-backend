@@ -1,15 +1,19 @@
-export const getPatentDetailsQuery = async (queryToSearch)=>{
+export const getPatentDetailsQuery = async (queryToSearch) => {
+  try {
     const id = queryToSearch;
     const finalElasticSearchQuery = `{
-        "query": {
-            "bool": {
-                "filter": {
-                    "ids": {
-                        "values":"${id}"
+            "query": {
+                "bool": {
+                    "filter": {
+                        "ids": {
+                            "values":"${id}"
+                        }
                     }
                 }
             }
-        }
-    }`
-    return finalElasticSearchQuery
-}
+        }`;
+    return finalElasticSearchQuery;
+  } catch (error) {
+    return "syntax error";
+  }
+};
