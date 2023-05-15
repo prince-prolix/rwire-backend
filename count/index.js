@@ -3,8 +3,8 @@ import peggy from "../parser/parser.js";
 import { generateQuery } from "../common/generate-rec-query/index.js";
 import { generateFilterKeysQuery } from "../functions/chart-functions.js";
 import { getCitationAndFamilyData } from "../resources/data/citation-and-family.js";
-import { url } from "../class-generator/constant.js";
-import { headers } from "../api/controllers/rwire-controllers.js";
+import { url } from "../utils/constant.js";
+import { defaultHeaders } from "../api/database/db.js";
 export const getFinalElasticCountQuery = async (
   queryToSearch,
   options = {}
@@ -65,7 +65,11 @@ const getElasticCountQueryNumberSearchWithIncludes = async (
   };
   const body = JSON.stringify(aggregationQuery);
   const method = "post";
-  const rawResponse = await fetch(`${url}/_search`, { method, headers, body });
+  const rawResponse = await fetch(`${url}/_search`, {
+    method,
+    headers: defaultHeaders,
+    body,
+  });
   const dataAggregationResponse = await rawResponse.json();
 
   const includedData = getIncludedData(dataAggregationResponse);

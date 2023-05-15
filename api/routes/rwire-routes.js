@@ -1,15 +1,13 @@
 import express from "express";
-import {
-  getClassRecords,
-  getSmartSearch,
-  getAggregationDataNumberSearch,
-  getPatentDetails,
-  getCount,
-  getFilterOptions,
-  getChartData,
-  getChartFiltersOptions,
-  getExportData,
-} from "../controllers/rwire-controllers.js";
+import {getClassRecords} from  '../controllers/class-generator.js';
+import {getSmartSearch} from "../controllers/smart-search.js";
+import {getAggregationDataNumberSearch} from "../controllers/aggregated-data-number-search.js";
+import {getPatentDetails} from "../controllers/patent-details.js";
+import {getCount} from "../controllers/count.js";
+import {getFilterOptions} from "../controllers/filters-options.js";
+import {getChartData} from "../controllers/chart-data.js";
+import {getChartFiltersOptions} from "../controllers/chart-filters-options.js";
+import {getExportData} from "../controllers/export-data.js";
 export const router = express.Router();
 
 router.route("/class").post(getClassRecords);
