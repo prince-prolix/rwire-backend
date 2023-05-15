@@ -6,7 +6,7 @@ import { getCitationAndFamilyData } from "../resources/data/citation-and-family.
 export const getAggregationDataNumberSearchQuery = (queryToSearch, options) => {
   const finalSearchQuery = queryToSearch;
   const isValidQuery = validationQuery(finalSearchQuery);
-  console.log("isValidQuery ",isValidQuery);
+  console.log("isValidQuery ", isValidQuery);
   if (!isValidQuery) return "syntax error";
   const processedQuery = queryProcess(finalSearchQuery);
   const parser = peggy.parse(processedQuery);

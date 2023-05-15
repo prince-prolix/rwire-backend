@@ -44,16 +44,14 @@ export const validationQuery = (rawQuery) => {
   }
 };
 export const cleanQuery = (query) => {
-  return (
-    query
-      .replaceAll("|", "OR")
-      .replaceAll("~", "NOT")
-      .replaceAll("&", "AND")
-      .replaceAll(",", " ")
-      .replaceAll(":", "")
-      .replaceAll(/\s+/g, " ")
-      .trim()
-  );
+  return query
+    .replaceAll("|", "OR")
+    .replaceAll("~", "NOT")
+    .replaceAll("&", "AND")
+    .replaceAll(",", " ")
+    .replaceAll(":", "")
+    .replaceAll(/\s+/g, " ")
+    .trim();
 };
 
 export const checkSpecialConditions = (query) => {

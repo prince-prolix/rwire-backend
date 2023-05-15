@@ -9,10 +9,7 @@ export const getElasticQueryChartData = async (
   const { field1, field2, isMultiSeries, topNumber, dataSize, chartFilters } =
     requestOptions;
   const aggs = distinctAggQuery(field1, field2, isMultiSeries, topNumber);
-  let elasticQuery = await getElasticQuerySearch(
-    queryToSearch,
-    requestOptions
-  );
+  let elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
   if (elasticQuery === "syntax error") {
     return elasticQuery;
   }
@@ -23,7 +20,7 @@ export const getElasticQueryChartData = async (
       ? elasticQueryObj.query.bool.must.push(...filterQuery)
       : (elasticQueryObj.query.bool["must"] = [...filterQuery]);
   }
- let queryObj = {
+  let queryObj = {
     query: elasticQueryObj.query,
     size: dataSize,
     ...aggs,

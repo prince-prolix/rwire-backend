@@ -3,7 +3,6 @@ import { generateElasticQueryClassGenerator } from "../../class-generator/index.
 import { getDataFromElastic } from "../database/db.js";
 import { isValidField } from "../utils/validation.js";
 export const getClassRecords = async (request, response) => {
-  console.log("found class or keyword");
   const { class: classes, keyword, types } = request.body;
   const queryValues = { classes, keyword, types };
   if (!isValidField(classes) && !isValidField(keyword)) {

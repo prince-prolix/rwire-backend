@@ -6,10 +6,7 @@ import { generateFilterKeysQuery } from "../functions/chart-functions.js";
 import { getCitationAndFamilyData } from "../resources/data/citation-and-family.js";
 import { url } from "../utils/constant.js";
 import { defaultHeaders } from "../api/database/db.js";
-export const getElasticQuerySearch = async (
-  queryToSearch,
-  options = {}
-) => {
+export const getElasticQuerySearch = async (queryToSearch, options = {}) => {
   const { isNumberWithIncludeSearch = false } = options;
 
   const isValidQuery = validationQuery(queryToSearch);

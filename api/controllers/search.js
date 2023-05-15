@@ -29,10 +29,7 @@ export const getSearch = async (request, response) => {
     collapsebleField,
     filters,
   };
-  let elasticQuery = await getElasticQuerySearch(
-    queryToSearch,
-    requestOptions
-  );
+  let elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
   if (isSyntaxError(elasticQuery)) {
     response.status(400).json({ message: "syntax error" });
     return;
