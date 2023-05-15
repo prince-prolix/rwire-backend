@@ -4,12 +4,9 @@ export const generateFilterKeysQuery = (filters) => {
   let filterQuery = [];
   filters.forEach((filter) => {
     const terms = [];
-    // console.log("filter: ", filter);
     const key = Object.keys(filter)[0];
     const field = checkFieldTypeKeywordBase(key) ? key : `${key}.keyword`;
-    // console.log("filter ", filter[key]);
     filter[key].forEach((i) => {
-      // console.log(i);
       if (key === "ED") {
         return terms.push({
           range: {
@@ -28,7 +25,6 @@ export const generateFilterKeysQuery = (filters) => {
         },
       });
     });
-    // console.log("terms ",terms);
     if (terms.length > 0) {
       filterQuery.push({
         bool: {
@@ -37,8 +33,5 @@ export const generateFilterKeysQuery = (filters) => {
       });
     }
   });
-
-  // eslint-disable-next-line array-callback-return
-
   return filterQuery;
 };

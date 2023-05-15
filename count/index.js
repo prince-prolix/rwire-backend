@@ -15,8 +15,6 @@ export const getFinalElasticCountQuery = async (
 
   if (!isValidQuery) return "syntax error";
   const processedQuery = queryProcess(finalSearchQuery);
-  // console.log("processedQuery: ",processedQuery);
-  // console.log("processedQuery query :"+processedQuery);
   try {
     if (isNumberWithIncludeSearch) {
       return getElasticCountQueryNumberSearchWithIncludes(
@@ -24,7 +22,6 @@ export const getFinalElasticCountQuery = async (
         options
       );
     } else {
-      // console.log(" prince processed Query: "+processedQuery);
       return getElasticCountQuery(processedQuery, options);
     }
   } catch (e) {
@@ -45,14 +42,12 @@ const getIncludedData = (data) => {
       }
     });
   });
-  console.log(dataArray);
   return dataArray;
 };
 const getElasticCountQueryNumberSearchWithIncludes = async (
   rawQuery,
   options = {}
 ) => {
-  // console.log("rawQuery "+rawQuery);
   const parser = peggy.parse(rawQuery);
   let dummyWindow = { origQuery: rawQuery };
   const elasticQuery = generateQuery(dummyWindow, parser);
@@ -69,12 +64,9 @@ const getElasticCountQueryNumberSearchWithIncludes = async (
     },
   };
   const body = JSON.stringify(aggregationQuery);
-  // console.log("body : ",body);
-  // console.log("aggregationQuery: "+JSON.stringify(aggregationQuery));
   const method = "post";
   const rawResponse = await fetch(`${url}/_search`, { method, headers, body });
   const dataAggregationResponse = await rawResponse.json();
-  // console.log(JSON.stringify(dataAggregationResponse));
 
   const includedData = getIncludedData(dataAggregationResponse);
   let newQueryString = "";
@@ -86,7 +78,6 @@ const getElasticCountQueryNumberSearchWithIncludes = async (
   const combineQuery = newQueryString
     ? `${rawQuery} OR ${newQueryString}`
     : rawQuery;
-  // console.log("combineQuery :"+combineQuery);
   return getElasticCountQuery(combineQuery, options);
 };
 
@@ -94,9 +85,7 @@ export const getElasticCountQuery = (rawQuery, options = {}) => {
   let success = true;
   const { filters } = options;
   const sample = filters ? generateFilterKeysQuery(filters) : [];
-  //  console.log("sample",sample);
   try {
-    // console.log("rawQuery : "+rawQuery)
     const parser = peggy.parse(rawQuery);
     let dummyWindow = { origQuery: rawQuery };
     const elasticQuery = generateQuery(dummyWindow, parser);

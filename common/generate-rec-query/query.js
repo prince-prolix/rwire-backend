@@ -33,7 +33,6 @@ const searchWithStarFields = [
 ];
 
 const operatorBaseOnFields = (field) => {
-  console.log("operatorBaseOnFields");
   const rawField = field.replace(">", "").replace("<", "");
 
   if (textFieldsList.includes(rawField)) {
@@ -273,14 +272,12 @@ export const query = (dummyWindow,data, field, parent = {}, isCheckField) => {
 
         let leftTerm = getLeftTerm(data.left);
         let rightTerm = getRightTerm(data.right);
-        console.log("dummyWindow required ",dummyWindow.origQuery);
         dummyWindow.origQuery =
           dummyWindow.origQuery &&
           dummyWindow.origQuery.replace(
             `${leftTerm} ${rightTerm}`,
             `${leftTerm} ${data.operator.replace(":", "")} ${rightTerm}`
           );
-          console.log("dummyWindow required ",dummyWindow.origQuery);
       }
 
       // process data in left first

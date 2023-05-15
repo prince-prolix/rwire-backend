@@ -12,19 +12,14 @@ export const getElasticQuerySmartSearch = async (
 ) => {
   const { isNumberWithIncludeSearch = false } = options;
 
-  // console.log("prince querytosearch:"+queryToSearch)
   const isValidQuery = validationQuery(queryToSearch);
 
   if (!isValidQuery) return "syntax error";
-  console.log("finalSearchQuery ", queryToSearch);
   const processedQuery = queryProcess(queryToSearch);
-  // console.log("processedQuery: ",processedQuery);
-  // console.log("processedQuery query :"+processedQuery);
   try {
     if (isNumberWithIncludeSearch) {
       return getElasticQueryNumberSearchWithIncludes(processedQuery, options);
     } else {
-      // console.log(" prince processed Query: "+processedQuery);
       return getElasticQuery(processedQuery, options);
     }
   } catch (e) {
@@ -45,14 +40,12 @@ const getIncludedData = (data) => {
       }
     });
   });
-  console.log(dataArray);
   return dataArray;
 };
 const getElasticQueryNumberSearchWithIncludes = async (
   rawQuery,
   options = {}
 ) => {
-  // console.log("rawQuery "+rawQuery);
   const parser = peggy.parse(rawQuery);
   let dummyWindow = { origQuery: rawQuery };
   const elasticQuery = generateQuery(dummyWindow, parser);
@@ -69,12 +62,9 @@ const getElasticQueryNumberSearchWithIncludes = async (
     },
   };
   const body = JSON.stringify(aggregationQuery);
-  // console.log("body : ",body);
-  // console.log("aggregationQuery: "+JSON.stringify(aggregationQuery));
   const method = "post";
   const rawResponse = await fetch(`${url}/_search`, { method, headers, body });
   const dataAggregationResponse = await rawResponse.json();
-  // console.log(JSON.stringify(dataAggregationResponse));
 
   const includedData = getIncludedData(dataAggregationResponse);
   let newQueryString = "";
@@ -86,7 +76,6 @@ const getElasticQueryNumberSearchWithIncludes = async (
   const combineQuery = newQueryString
     ? `${rawQuery} OR ${newQueryString}`
     : rawQuery;
-  // console.log("combineQuery :"+combineQuery);
   return getElasticQuery(combineQuery, options);
 };
 
@@ -102,7 +91,6 @@ export const getElasticQuery = (rawQuery, options = {}) => {
     filters,
   } = options;
   const sample = generateFilterKeysQuery(filters);
-  //  console.log("sample",sample);
   try {
     const parser = peggy.parse(rawQuery);
     let dummyWindow = { origQuery: rawQuery };

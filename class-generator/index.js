@@ -27,7 +27,6 @@ const formatUserQueryInput = (inputValues) => {
   return inputCollection.join(" ");
 };
 const generateUserQuery = (values) => {
-  // console.log(values.types);
   let userValues = structuredClone(values);
 
   let userQuery = "";
@@ -50,15 +49,11 @@ const generateUserQuery = (values) => {
   return userQuery;
 };
 export const generateElasticQueryClassGenerator = async (values) => {
-  // console.log(values);
   let userQuery = generateUserQuery(values);
-  // console.log(userQuery);
   const parser = peggy.parse(userQuery);
   let dummyWindow = { origQuery: userQuery };
   const elasticQuery = generateQuery(dummyWindow, parser);
-  // console.log((JSON.stringify(elasticQuery)));
   const finalElasticQueryObj = { query: elasticQuery };
   const finalElasticQuery = JSON.stringify(finalElasticQueryObj).toLowerCase();
-  // console.log("final elastric query "+finalElasticQuery);
   return finalElasticQuery;
 };

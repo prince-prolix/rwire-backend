@@ -34,12 +34,9 @@ export const validationQuery = (rawQuery) => {
   try {
     checkSpecialConditions(rawQuery);
     const cleanedQuery = cleanQuery(rawQuery);
-    // console.log("cleanedQuery ", cleanedQuery);
     const parser = peggy.parse(cleanedQuery);
-    // console.log("everything is okay rawQuery : " + rawQuery);
     let dummyWindow = { origQuery: cleanedQuery };
     generateQuery(dummyWindow, parser, true);
-    // console.log("everything is okay rawQuery : " + dummyWindow.origQuery);
     return dummyWindow.origQuery;
   } catch (e) {
     console.log("syntax error ", e);
@@ -55,7 +52,6 @@ export const cleanQuery = (query) => {
       .replaceAll(",", " ")
       .replaceAll(":", "")
       .replaceAll(/\s+/g, " ")
-      // .replaceAll(" "," ADJ ") // to replace space with ADJ, else parse will give error of wrong syntax
       .trim()
   );
 };
@@ -81,9 +77,6 @@ export const queryProcess = (query) => {
   newQuery = cleanQuery(query);
 
   checkSpecialConditions(newQuery);
-
-  //Add this debug code as per discussed so please not remove
-  console.log("userQuery>>>>>>>>>", newQuery);
 
   Object.keys(multipleFieldsShortCode).forEach((value) => {
     let regExp = new RegExp(
@@ -124,9 +117,6 @@ export const queryProcess = (query) => {
       }
     }
   });
-
-  //Add this debug code as per discussed so please not remove
-  // console.log("processedQuery>>>>>>>>>", newQuery);
 
   return newQuery;
 };

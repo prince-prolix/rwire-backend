@@ -5,7 +5,6 @@ import { getCitationAndFamilyData } from "../resources/data/citation-and-family.
 
 export const getAggregationDataNumberSearchQuery = (queryToSearch, options) => {
   const finalSearchQuery = queryToSearch;
-  // console.log("prince querytosearch:"+queryToSearch)
   const isValidQuery = validationQuery(finalSearchQuery);
 
   if (!isValidQuery) return "syntax error";

@@ -12,12 +12,12 @@ export const getDataFromElastic = async ({
   response,
 }) => {
   const body = elasticQuery;
-  console.log("body" + body);
   const finalHeaders = {
     ...defaultHeaders,
     ...headers,
   };
   const options = { method, headers: finalHeaders, body };
+  
   response.writeHead(200, { "Content-Type": "application/json" });
   got
     .stream(url, options)

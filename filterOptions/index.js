@@ -20,10 +20,8 @@ export const getElasticQueryFilterOptions = async (queryToSearch, options) => {
   if (!isValidQuery) return "syntax error";
   const aggData = aggregate(fields, filtersSearchText, collapsebleField);
   const sample = generateFilterKeysQuery(filters);
-  console.log("sample ", sample);
   const processedQuery = queryProcess(queryToSearch);
   const parser = peggy.parse(processedQuery);
-  console.log("queryToSearch", queryToSearch);
   let dummyWindow = { origQuery: processedQuery };
   const elasticQuery = generateQuery(dummyWindow, parser);
 

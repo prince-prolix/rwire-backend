@@ -23,10 +23,7 @@ export const getElasticQueryChartFiltersOptions = async (
   }
   let elasticQueryObj = JSON.parse(elasticQuery);
   const filterQuery = generateFilterKeysQuery(chartFilters);
-  //  console.log("elasticQuery ",Object.keys(elasticQueryObj.query.bool))
   if (filterQuery.length > 0) {
-    console.log("filterQuery ", filterQuery);
-    // console.log('add chart filter',elasticQuery.query)
     elasticQueryObj.query.bool.must
       ? elasticQueryObj.query.bool.must.push(...filterQuery)
       : (elasticQueryObj.query.bool["must"] = [...filterQuery]);
@@ -43,13 +40,11 @@ export const getElasticQueryChartFiltersOptions = async (
     aggregationInclude,
     aggregationSize
   );
-  // console.log("elastic query ",JSON.stringify(JSON.parse(elasticQuery).query));
-
+ 
   let queryObj = {
     query: elasticQueryObj.query,
     size: dataSize,
     ...aggregation,
   };
-  //   console.log(JSON.stringify(queryObj));
   return JSON.stringify(queryObj);
 };

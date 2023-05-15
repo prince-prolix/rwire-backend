@@ -18,7 +18,6 @@ export const getRightTerm = (right) => {
   };
 
 const spanTerms = (terms, field) => {
-    // console.log("terms>>>", terms);
     if (terms.should) {
       return {
         span_or: {
@@ -72,7 +71,6 @@ const spanTerms = (terms, field) => {
   };
 
 const spanShouldTerms = (terms, field) => {
-    // console.log("terms==>>>", terms);
     if (Array.isArray(terms.should)) {
       return terms.should.map((term) => spanTerms(term, field));
     } else {
@@ -85,7 +83,6 @@ const spanShouldTerms = (terms, field) => {
   };
 
 const spanMustTerms = (terms, field) => {
-    // console.log("terms==>>>", terms);
     if (Array.isArray(terms.must)) {
       return terms.must.map((term) => spanTerms(term, field));
     } else {

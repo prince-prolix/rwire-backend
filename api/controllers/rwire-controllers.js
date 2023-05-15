@@ -208,7 +208,6 @@ export const getChartData = async (request, response) => {
   getDataFromElastic({ url: `${url}/_search`, elasticQuery, response });
 };
 export const getChartFiltersOptions = async (request, response) => {
-  console.log("request.body ", request.body.aggregationfield);
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
