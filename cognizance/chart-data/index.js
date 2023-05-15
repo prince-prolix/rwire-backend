@@ -1,5 +1,5 @@
 import { generateFilterKeysQuery } from "../../functions/chart-functions.js";
-import { getElasticQuerySmartSearch } from "../../smart-search/index.js";
+import { getElasticQuerySearch } from "../../search/index.js";
 import { distinctAggQuery } from "../functions/aggregationQuery.js";
 
 export const getElasticQueryChartData = async (
@@ -9,7 +9,7 @@ export const getElasticQueryChartData = async (
   const { field1, field2, isMultiSeries, topNumber, dataSize, chartFilters } =
     requestOptions;
   const aggs = distinctAggQuery(field1, field2, isMultiSeries, topNumber);
-  let elasticQuery = await getElasticQuerySmartSearch(
+  let elasticQuery = await getElasticQuerySearch(
     queryToSearch,
     requestOptions
   );

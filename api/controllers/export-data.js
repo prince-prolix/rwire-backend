@@ -1,6 +1,7 @@
 import { url } from "../../utils/constant.js";
 import { getElasticQueryExportData } from "../../exportData/index.js";
 import { getDataFromElastic } from "../database/db.js";
+import { isSyntaxError, isValidField } from "../utils/validation.js";
 export const getExportData = async (request, response) => {
   const {
     queryToSearch,
@@ -14,7 +15,7 @@ export const getExportData = async (request, response) => {
     collapsebleField,
     filters,
   };
-  if (!queryToSearch || queryToSearch === "") {
+  if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });
     return;
   }
@@ -22,7 +23,7 @@ export const getExportData = async (request, response) => {
     queryToSearch,
     requestOptions
   );
-  if (elasticQuery === "syntax error") {
+  if (isSyntaxError(elasticQuery)) {
     response.status(400).json({ message: "syntax error" });
     return;
   }

@@ -1,6 +1,7 @@
 import { url } from "../../utils/constant.js";
 import { getElasticQueryChartFiltersOptions } from "../../cognizance/chart-filters-options/index.js";
 import { getDataFromElastic } from "../database/db.js";
+import { isSyntaxError, isValidField } from "../utils/validation.js";
 export const getChartFiltersOptions = async (request, response) => {
   const {
     queryToSearch,
@@ -12,10 +13,10 @@ export const getChartFiltersOptions = async (request, response) => {
     aggregationFilterSearchtext = "",
     aggregationSize = 10,
   } = request.body;
-  if (queryToSearch === undefined || queryToSearch === "") {
+  if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });
     return;
-  } else if (aggregationField === undefined) {
+  } else if (!isValidField(aggregationField)) {
     response
       .status(404)
       .json({ message: "body must contain aggregation field" });
@@ -35,7 +36,7 @@ export const getChartFiltersOptions = async (request, response) => {
     queryToSearch,
     requestOptions
   );
-  if (elasticQuery === "syntax error") {
+  if (isSyntaxError(elasticQuery)) {
     response.status(400).json({ message: "syntax error" });
     return;
   }

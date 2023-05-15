@@ -1,6 +1,6 @@
 import { filterSearchAggInclude } from "../../common/data-functions.js";
 import { generateFilterKeysQuery } from "../../functions/chart-functions.js";
-import { getElasticQuerySmartSearch } from "../../smart-search/index.js";
+import { getElasticQuerySearch } from "../../search/index.js";
 import { aggregationData as selectFilterAggQuery } from "../functions/aggregationQuery.js";
 
 export const getElasticQueryChartFiltersOptions = async (
@@ -14,7 +14,7 @@ export const getElasticQueryChartFiltersOptions = async (
     dataSize,
     chartFilters,
   } = requestOptions;
-  let elasticQuery = await getElasticQuerySmartSearch(
+  let elasticQuery = await getElasticQuerySearch(
     queryToSearch,
     requestOptions
   );
@@ -40,7 +40,7 @@ export const getElasticQueryChartFiltersOptions = async (
     aggregationInclude,
     aggregationSize
   );
- 
+
   let queryObj = {
     query: elasticQueryObj.query,
     size: dataSize,

@@ -17,7 +17,7 @@ export const getDataFromElastic = async ({
     ...headers,
   };
   const options = { method, headers: finalHeaders, body };
-  
+
   response.writeHead(200, { "Content-Type": "application/json" });
   got
     .stream(url, options)

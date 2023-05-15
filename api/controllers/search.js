@@ -1,7 +1,8 @@
 import { url } from "../../utils/constant.js";
-import { getElasticQuerySmartSearch } from "../../smart-search/index.js";
+import { getElasticQuerySearch } from "../../search/index.js";
 import { getDataFromElastic } from "../database/db.js";
-export const getSmartSearch = async (request, response) => {
+import { isSyntaxError, isValidField } from "../utils/validation.js";
+export const getSearch = async (request, response) => {
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
@@ -13,7 +14,7 @@ export const getSmartSearch = async (request, response) => {
     collapsebleField = "PN_B",
     filters = [],
   } = request.body;
-  if (!queryToSearch) {
+  if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });
     return;
   }
@@ -28,11 +29,11 @@ export const getSmartSearch = async (request, response) => {
     collapsebleField,
     filters,
   };
-  let elasticQuery = await getElasticQuerySmartSearch(
+  let elasticQuery = await getElasticQuerySearch(
     queryToSearch,
     requestOptions
   );
-  if (elasticQuery === "syntax error") {
+  if (isSyntaxError(elasticQuery)) {
     response.status(400).json({ message: "syntax error" });
     return;
   }

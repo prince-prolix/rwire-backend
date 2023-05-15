@@ -1,6 +1,7 @@
 import { url } from "../../utils/constant.js";
 import { getElasticQueryChartData } from "../../cognizance/chart-data/index.js";
 import { getDataFromElastic } from "../database/db.js";
+import { isSyntaxError, isValidField } from "../utils/validation.js";
 export const getChartData = async (request, response) => {
   const {
     queryToSearch,
@@ -13,7 +14,7 @@ export const getChartData = async (request, response) => {
     isMultiSeries = false,
     topNumber = 10,
   } = request.body;
-  if (!queryToSearch || queryToSearch === "") {
+  if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });
     return;
   }
@@ -33,7 +34,7 @@ export const getChartData = async (request, response) => {
     queryToSearch,
     requestOptions
   );
-  if (elasticQuery === "syntax error") {
+  if (isSyntaxError(elasticQuery)) {
     response.status(400).json({ message: "syntax error" });
     return;
   }
