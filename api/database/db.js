@@ -17,12 +17,23 @@ export const getDataFromElastic = async ({
     ...headers,
   };
   const options = { method, headers: finalHeaders, body };
+  const readStream = got.stream(url, options);
 
-  response.writeHead(200, { "Content-Type": "application/json" });
-  got
-    .stream(url, options)
-    .pipe(response)
-    .on("error", (err) => {
-      console.log(err);
-    });
+  readStream.on("response", async (res) => {
+    //console.log(res);
+    // here we recieve response headers from elastic search.
+    // which contains status code etc.
+    response.writeHead(200, { "Content-Type": "application/json" });
+
+    readStream.pipe(response);
+    // for await (const chunk of readStream)
+    //   response.write(Buffer.from(chunk).toString());
+  });
+  // readStream.on("end",async()=>{
+  //    response.end();
+  // })
+  readStream.once("error", (error) => {
+    console.log("logging this error", error.message);
+    response.status(502).json({ message: "server error" });
+  });
 };
