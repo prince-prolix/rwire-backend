@@ -48,7 +48,13 @@ const generateUserQuery = (values) => {
   }
   return userQuery;
 };
-export const generateElasticQueryClassGenerator = async (values) => {
+/**
+ * getElasticQueryClassGenerator takes queryToSearch and options.
+ * It validate if given query has syntax error and handle it.
+ * If given query is valid then it processes and parses it along with options,
+ * generate and return final elastic query.
+ */
+export const getElasticQueryClassGenerator = async (values) => {
   let userQuery = generateUserQuery(values);
   const parser = peggy.parse(userQuery);
   let dummyWindow = { origQuery: userQuery };

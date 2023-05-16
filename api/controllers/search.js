@@ -2,6 +2,14 @@ import { url } from "../../utils/constant.js";
 import { getElasticQuerySearch } from "../../search/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isSyntaxError, isValidField } from "../utils/validation.js";
+/**
+ * getSearch is a controller for "/search" route.
+ * It returns one of the following things:
+ * 1. queryToSearch not found : 404 and not found error message
+ * 2. syantax error in query : 400 and bad request error message
+ * 3. If it works, it fetches data ( documents ) from elasticsearch
+ *    for given query and return it as response to client
+ */
 export const getSearch = async (request, response) => {
   const {
     queryToSearch,

@@ -10,7 +10,10 @@ import { getChartFiltersOptions } from "../controllers/chart-filters-options.js"
 import { getExportData } from "../controllers/export-data.js";
 
 export const router = express.Router();
-
+/**
+ * Route Module for API. It maps routes with
+ * thier appropriate controllers.
+ */
 router.route("/class").post(getClassRecords);
 router.route("/search").post(getSearch);
 router

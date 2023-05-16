@@ -1,9 +1,13 @@
 import { got } from "got";
-export const defaultHeaders = {
-  Accept: "application/json",
-  "Content-Type": "application/x-ndjson",
-  responseType: "stream",
-};
+import { defaultHeaders } from "../../utils/constant.js";
+
+/**
+ *  getDataFromElastic fetches data using given url, body
+ *  and other header options. If response header come
+ *  from elasticsearch, it start streaming data given
+ *  by elasticsearch to client else if an error arises,
+ *  it responds client with 502 status code.
+ */
 export const getDataFromElastic = async ({
   url,
   elasticQuery,

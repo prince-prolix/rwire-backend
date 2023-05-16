@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import peggy from "../parser/parser.js";
 import { multipleFieldsShortCode } from "../resources/data/combine-field-list.js";
 import { generateQuery } from "./generate-rec-query/index.js";
@@ -26,9 +25,9 @@ function balancedString(str) {
   return finalString;
 }
 /**
- *
- * @param {} rawQuery
- * @returns
+ * validationQuery takes rawQuery as input.
+ * If it can successfully parse it then it returns true
+ * else false
  */
 export const validationQuery = (rawQuery) => {
   try {
@@ -37,12 +36,16 @@ export const validationQuery = (rawQuery) => {
     const parser = peggy.parse(cleanedQuery);
     let dummyWindow = { origQuery: cleanedQuery };
     generateQuery(dummyWindow, parser, true);
-    return dummyWindow.origQuery;
+    return true;
   } catch (e) {
     console.log("syntax error ", e);
     return false;
   }
 };
+/**
+ *  cleanQuery takes query as input and replace speacial charachter
+ *  with operator
+ */
 export const cleanQuery = (query) => {
   return query
     .replaceAll("|", "OR")

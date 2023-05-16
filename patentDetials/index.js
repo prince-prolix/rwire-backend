@@ -1,7 +1,11 @@
+/**
+ * getPatentDetailsQuery takes queryToSearch.
+ * It generates and returns final elastic query.
+ */
+
 export const getPatentDetailsQuery = async (queryToSearch) => {
-  try {
-    const id = queryToSearch;
-    const finalElasticSearchQuery = `{
+  const id = queryToSearch;
+  const finalElasticSearchQuery = `{
             "query": {
                 "bool": {
                     "filter": {
@@ -12,8 +16,5 @@ export const getPatentDetailsQuery = async (queryToSearch) => {
                 }
             }
         }`;
-    return finalElasticSearchQuery;
-  } catch (error) {
-    return "syntax error";
-  }
+  return finalElasticSearchQuery;
 };

@@ -1,4 +1,4 @@
-import { fieldTypeChecking } from "../class-generator/mapping.js";
+import { fieldTypeChecking } from "../common/mapping.js";
 export const checkFieldTypeKeywordBase = (field) => {
   return (
     fieldTypeChecking[field] &&

@@ -44,6 +44,11 @@ export const aggregationData = (field, include = [], size = 10) => {
     },
   };
 };
+/**
+ * distinctAggQuery takes field1, field2, isMultiSeries, topNumber.                                     mber.
+ * It generates and return aggregation query which will be a part of
+ * final elastic query.
+ */
 export const distinctAggQuery = (field1, field2, isMultiSeries, topNumber) => {
   let countryCountAgg = {};
   if (field1 === "PNC" || field1 === "PRC") {

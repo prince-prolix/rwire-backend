@@ -3,10 +3,16 @@ import { queryProcess, validationQuery } from "../common/query-functions.js";
 import peggy from "../parser/parser.js";
 import { getCitationAndFamilyData } from "../resources/data/citation-and-family.js";
 
+/**
+ * getAggregationDataNumberSearchQuery takes queryToSearch and options.
+ * It validate if given query has syntax error and handle it.
+ * If given query is valid then it processes and parses it along with options,
+ * generate and return final elastic query.
+ */
 export const getAggregationDataNumberSearchQuery = (queryToSearch, options) => {
   const finalSearchQuery = queryToSearch;
   const isValidQuery = validationQuery(finalSearchQuery);
-  console.log("isValidQuery ", isValidQuery);
+
   if (!isValidQuery) return "syntax error";
   const processedQuery = queryProcess(finalSearchQuery);
   const parser = peggy.parse(processedQuery);

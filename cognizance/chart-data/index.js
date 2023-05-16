@@ -1,7 +1,12 @@
 import { generateFilterKeysQuery } from "../../functions/chart-functions.js";
 import { getElasticQuerySearch } from "../../search/index.js";
 import { distinctAggQuery } from "../functions/aggregationQuery.js";
-
+/**
+ * getElasticQueryChartData takes queryToSearch and options.
+ * It validate if given query has syntax error and handle it.
+ * If given query is valid then it processes and parses it along with options,
+ * generate and return final elastic query.
+ */
 export const getElasticQueryChartData = async (
   queryToSearch,
   requestOptions

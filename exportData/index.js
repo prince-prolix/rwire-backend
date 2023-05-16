@@ -3,7 +3,12 @@ import { queryProcess, validationQuery } from "../common/query-functions.js";
 import { checkFieldTypeKeywordBase } from "../common/utils.js";
 import { generateFilterKeysQuery } from "../functions/chart-functions.js";
 import peggy from "../parser/parser.js";
-
+/**
+ * getElasticQueryExportData takes queryToSearch and options.
+ * It validate if given query has syntax error and handle it.
+ * If given query is valid then it processes and parses it along with options,
+ * generate and return final elastic query.
+ */
 export const getElasticQueryExportData = async (
   queryToSearch,
   options = {}

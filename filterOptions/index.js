@@ -4,13 +4,13 @@ import { queryProcess, validationQuery } from "../common/query-functions.js";
 import { checkFieldTypeKeywordBase } from "../common/utils.js";
 import { generateFilterKeysQuery } from "../functions/chart-functions.js";
 import peggy from "../parser/parser.js";
+import { aggregate } from "./aggregate.js";
 
 /**
- *  aa function sena mate che e
- * @param {
- * } queryToSearch
- * @param {*} options
- * @returns
+ * getElasticQueryFilterOptions takes queryToSearch and options.
+ * It validate if given query has syntax error and handle it.
+ * If given query is valid then it processes and parses it along with options,
+ * generate and return final elastic query.
  */
 
 export const getElasticQueryFilterOptions = async (queryToSearch, options) => {
@@ -48,69 +48,4 @@ export const getElasticQueryFilterOptions = async (queryToSearch, options) => {
     },
   };
   return JSON.stringify(aggregationQuery);
-};
-export const aggregate = (fields, filtersSearchText, collapsebleField) => {
-  let temp = {};
-  let subQuery = {
-    aggsUniqueCount: {
-      cardinality: {
-        field: checkFieldTypeKeywordBase(collapsebleField)
-          ? collapsebleField
-          : `${collapsebleField}.keyword`,
-      },
-    },
-  };
-  // eslint-disable-next-line array-callback-return
-  fields.map((field) => {
-    if (field === "ED") {
-      let hardBounds;
-      if (filtersSearchText.ED) {
-        const filterSearch = filterSearchAggInclude(
-          "ED",
-          filtersSearchText.ED.toString()
-        );
-        if (filterSearch[0]) {
-          hardBounds = {
-            min: `${filterSearch[0]}`,
-            max: `${filterSearch[filterSearch.length - 1] + 1}`,
-          };
-        }
-      }
-      let temp1 = {
-        date_histogram: {
-          min_doc_count: 1,
-          hard_bounds: hardBounds,
-          field: "ED",
-          calendar_interval: "year",
-          format: "yyyy",
-          order: {
-            _count: "desc",
-          },
-        },
-      };
-      temp = {
-        ...temp,
-        [field]: { ...temp1, aggs: subQuery },
-      };
-    } else {
-      let temp1 = {
-        terms: {
-          field: checkFieldTypeKeywordBase(field) ? field : `${field}.keyword`,
-          order: {
-            _count: "desc",
-          },
-          size: 1000,
-          include: filterSearchAggInclude(
-            field,
-            filtersSearchText[field] ? filtersSearchText[field] : ""
-          ),
-        },
-      };
-      temp = {
-        ...temp,
-        [field]: { ...temp1, aggs: subQuery },
-      };
-    }
-  });
-  return temp;
 };

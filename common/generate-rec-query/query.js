@@ -1,7 +1,7 @@
-import { textFieldsList } from "../../class-generator/field-map.js";
-import { fieldTypeChecking } from "../../class-generator/mapping.js";
-import { date } from "../../class-generator/category-wise-field-map.js";
-import { searchableFieldList } from "../../class-generator/searchable-field-list.js";
+import { textFieldsList } from "../../common/field-map.js";
+import { fieldTypeChecking } from "../../common/mapping.js";
+import { date } from "../../common/category-wise-field-map.js";
+import { searchableFieldList } from "../searchable-field-list.js";
 import { getLeftTerm, getRightTerm } from "./terms.js";
 export const boostFieldMap = {
   TI_EN: 4,

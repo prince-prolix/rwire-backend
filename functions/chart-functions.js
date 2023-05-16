@@ -1,4 +1,9 @@
 import { checkFieldTypeKeywordBase } from "../common/utils.js";
+/**
+ * generateFilterKeysQuery takes array of filters and
+ * generate a filterQuery which will be a part of final elastic query
+ * and return it.
+ */
 
 export const generateFilterKeysQuery = (filters) => {
   let filterQuery = [];

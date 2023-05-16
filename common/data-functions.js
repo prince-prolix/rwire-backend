@@ -28,7 +28,7 @@ export const filterSearchAggInclude = (filterName, value) => {
     let charArray = [...value];
     let newCharArray = [];
 
-    charArray.map((i) => {
+    charArray.forEach((i) => {
       if (i.codePointAt() >= 97 && i.codePointAt() <= 122) {
         newCharArray.push(`[${i}${i.toLocaleUpperCase()}]`);
       } else if (i.codePointAt() >= 65 && i.codePointAt() <= 90) {
