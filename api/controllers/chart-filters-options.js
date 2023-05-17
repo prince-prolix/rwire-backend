@@ -14,6 +14,7 @@ export const getChartFiltersOptions = async (request, response) => {
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
+    selectedIncludes = [],
     dataSize = 0,
     filters = [],
     chartFilters = [],
@@ -33,6 +34,7 @@ export const getChartFiltersOptions = async (request, response) => {
   const requestOptions = {
     queryToSearch,
     isNumberWithIncludeSearch,
+    selectedIncludes,
     dataSize,
     filters,
     chartFilters,

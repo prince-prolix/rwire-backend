@@ -13,6 +13,8 @@ import { isSyntaxError, isValidField } from "../utils/validation.js";
 export const getFilterOptions = async (request, response) => {
   const {
     queryToSearch,
+    isNumberWithIncludeSearch = false,
+    selectedIncludes = [],
     dataSize = 0,
     fields,
     filtersSearchText,
@@ -25,6 +27,8 @@ export const getFilterOptions = async (request, response) => {
   }
   const requestOptions = {
     queryToSearch,
+    isNumberWithIncludeSearch,
+    selectedIncludes,
     dataSize,
     fields,
     filtersSearchText,

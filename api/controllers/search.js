@@ -14,6 +14,7 @@ export const getSearch = async (request, response) => {
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
+    selectedIncludes = [],
     dataSize = 10,
     dataFrom = 0,
     sortBy = "_score",
@@ -29,6 +30,7 @@ export const getSearch = async (request, response) => {
   const requestOptions = {
     queryToSearch,
     isNumberWithIncludeSearch,
+    selectedIncludes,
     dataSize,
     dataFrom,
     sortBy,
