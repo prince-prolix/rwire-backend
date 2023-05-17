@@ -11,7 +11,7 @@ export const getElasticQueryChartData = async (
   queryToSearch,
   requestOptions
 ) => {
-  const { field1, field2, isMultiSeries, topNumber, dataSize, chartFilters } =
+  const { field1, field2, isMultiSeries, topNumber, chartFilters } =
     requestOptions;
   const aggs = distinctAggQuery(field1, field2, isMultiSeries, topNumber);
   let elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
@@ -27,7 +27,7 @@ export const getElasticQueryChartData = async (
   }
   let queryObj = {
     query: elasticQueryObj.query,
-    size: dataSize,
+    size: 0,
     ...aggs,
   };
   return JSON.stringify(queryObj);

@@ -16,7 +16,6 @@ export const getElasticQueryChartFiltersOptions = async (
     aggregationField,
     aggregationFilterSearchtext,
     aggregationSize,
-    dataSize,
     chartFilters,
   } = requestOptions;
   let elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
@@ -45,7 +44,7 @@ export const getElasticQueryChartFiltersOptions = async (
 
   let queryObj = {
     query: elasticQueryObj.query,
-    size: dataSize,
+    size: 0,
     ...aggregation,
   };
   return JSON.stringify(queryObj);

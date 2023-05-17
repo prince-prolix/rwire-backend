@@ -15,14 +15,7 @@ import { isSyntaxError, isValidField } from "../utils/validation.js";
 export const getAggregationDataNumberSearch = async (request, response) => {
   const {
     queryToSearch,
-    dataSize = 10,
-    dataFrom = 0,
-    selectedIncludes = [],
-    sortBy = "_score",
-    sortType = "desc",
-    includeFieldsOnResult = [],
-    collapsebleField = "PN_B",
-    filters = [],
+    selectedIncludes = []
   } = request.body;
   if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });
@@ -30,14 +23,7 @@ export const getAggregationDataNumberSearch = async (request, response) => {
   }
   const requestOptions = {
     queryToSearch,
-    selectedIncludes,
-    dataSize,
-    dataFrom,
-    sortBy,
-    sortType,
-    includeFieldsOnResult,
-    collapsebleField,
-    filters,
+    selectedIncludes
   };
   const elasticQuery = getAggregationDataNumberSearchQuery(
     queryToSearch,
