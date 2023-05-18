@@ -52,6 +52,6 @@ import { getCount } from "../controllers/count.js";
  *         description: server error
  */
 
-export const connectCountRoute = ( router )=>{
+export const connectCountRoute = (router) => {
   router.route("/count").post(getCount);
-}
+};

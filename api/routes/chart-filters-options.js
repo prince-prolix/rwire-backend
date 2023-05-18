@@ -86,6 +86,6 @@ import { getChartFiltersOptions } from "../controllers/chart-filters-options.js"
  *         description: server error
  */
 
-export const connectChartFiltersOptionsRoute = ( router )=>{
+export const connectChartFiltersOptionsRoute = (router) => {
   router.route("/chart-filters-options").post(getChartFiltersOptions);
-}
+};

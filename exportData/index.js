@@ -36,7 +36,7 @@ export const getElasticQueryExportData = async (
   const exportDataQuery = {
     query: elasticQuery,
     size: 500,
-    _source: includeFieldsOnResult
+    _source: includeFieldsOnResult,
   };
   return JSON.stringify(exportDataQuery);
 };

@@ -13,17 +13,14 @@ import { isSyntaxError, isValidField } from "../utils/validation.js";
  *    and return it as response to client
  */
 export const getAggregationDataNumberSearch = async (request, response) => {
-  const {
-    queryToSearch,
-    selectedIncludes = []
-  } = request.body;
+  const { queryToSearch, selectedIncludes = [] } = request.body;
   if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });
     return;
   }
   const requestOptions = {
     queryToSearch,
-    selectedIncludes
+    selectedIncludes,
   };
   const elasticQuery = getAggregationDataNumberSearchQuery(
     queryToSearch,

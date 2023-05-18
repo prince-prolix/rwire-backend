@@ -75,6 +75,6 @@ import { getFilterOptions } from "../controllers/filters-options.js";
  *         description: server error
  */
 
-export const connectFiltersOptionsRoute = ( router )=>{
+export const connectFiltersOptionsRoute = (router) => {
   router.route("/filters-options").post(getFilterOptions);
-}
+};

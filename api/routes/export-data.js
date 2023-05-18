@@ -53,6 +53,6 @@ import { getExportData } from "../controllers/export-data.js";
  *         description: server error
  */
 
-export const connectExportDataRoute = ( router )=>{
+export const connectExportDataRoute = (router) => {
   router.route("/export-data").post(getExportData);
-}
+};

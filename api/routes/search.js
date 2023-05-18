@@ -40,7 +40,7 @@ import { getSearch } from "../controllers/search.js";
  *                 type: array
  *                 items:
  *                   type: string
-*/
+ */
 
 /**
  * @swagger

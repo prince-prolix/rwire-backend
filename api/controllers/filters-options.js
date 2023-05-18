@@ -16,9 +16,9 @@ export const getFilterOptions = async (request, response) => {
     isNumberWithIncludeSearch = false,
     selectedIncludes = [],
     fields,
-    filtersSearchText={},
+    filtersSearchText = {},
     collapsebleField = "PN_B",
-    filters=[],
+    filters = [],
   } = request.body;
   if (!isValidField(queryToSearch)) {
     response.status(404).json({ message: "body must contain queryToSearch" });

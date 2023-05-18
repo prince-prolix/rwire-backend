@@ -1,8 +1,8 @@
 import express from "express";
 import { connectChartDataRoute } from "./chart-data.js";
 import { connectChartFiltersOptionsRoute } from "./chart-filters-options.js";
-import { connectClassRoute} from "./class-generator.js";
-import { connectExportDataRoute } from "./export-data.js"
+import { connectClassRoute } from "./class-generator.js";
+import { connectExportDataRoute } from "./export-data.js";
 import { connectSearchRoute } from "./search.js";
 import { connectPatentDetailsRoute } from "./patent-details.js";
 import { connectCountRoute } from "./count.js";

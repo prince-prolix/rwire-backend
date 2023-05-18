@@ -76,10 +76,10 @@ export const getDataFromElasticScrollAPI = async ({
     const data = await rawResponse.json();
     if (data.error) {
       console.log("logging this error", data.error);
-      if(page===1){
+      if (page === 1) {
         response.status(500).json({ message: "server error" });
-      }else{
-        response.end("server error")
+      } else {
+        response.end("server error");
       }
       break;
     }

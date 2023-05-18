@@ -91,6 +91,6 @@ import { getChartData } from "../controllers/chart-data.js";
  *       500:
  *         description: server error
  */
-export const connectChartDataRoute = ( router )=>{
+export const connectChartDataRoute = (router) => {
   router.route("/chart-data").post(getChartData);
-}
+};
