@@ -36,12 +36,7 @@ export const getElasticQueryExportData = async (
   const exportDataQuery = {
     query: elasticQuery,
     size: 500,
-    _source: includeFieldsOnResult,
-    collapse: {
-      field: checkFieldTypeKeywordBase(collapsebleField)
-        ? collapsebleField
-        : `${collapsebleField}.keyword`,
-    },
+    _source: includeFieldsOnResult
   };
   return JSON.stringify(exportDataQuery);
 };
