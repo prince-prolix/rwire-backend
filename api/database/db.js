@@ -38,6 +38,6 @@ export const getDataFromElastic = async ({
   // })
   readStream.once("error", (error) => {
     console.log("logging this error", error.message);
-    response.status(502).json({ message: "server error" });
+    response.status(500).json({ message: "server error" });
   });
 };
