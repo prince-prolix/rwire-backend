@@ -9,7 +9,7 @@ import { isSyntaxError, isValidField } from "../utils/validation.js";
  * It returns one of the following things:
  * 1. Required parameters not given or datatype not matching :
  *    400 and bad request error message
- * 3. If it works, it fetches aggregated data from elasticsearch for given
+ * 2. If it works, it fetches aggregated data from elasticsearch for given
  *    publication number and aggregation field such as BCP- backward citation
  *    and return it as response to client
  */

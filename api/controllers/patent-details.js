@@ -14,8 +14,9 @@ import { validateTypes } from "../../patentDetials/validate.js";
  */
 export const getPatentDetails = async (request, response) => {
   const { queryToSearch } = request.body;
-  if (!validateTypes({ queryToSearch })) {
-    badRequest({ response });
+  const validMessage = validateTypes({ queryToSearch });
+  if (validMessage !== "ok") {
+    badRequest({ response, message: validMessage });
     return;
   }
   let elasticQuery;

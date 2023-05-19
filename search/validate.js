@@ -18,16 +18,20 @@ export const validateTypes = (requestParams) => {
     collapsebleField,
     filters,
   } = requestParams;
-  const isValidRequest =
-    isString(queryToSearch) &&
-    isBoolean(isNumberWithIncludeSearch) &&
-    isArray(selectedIncludes) &&
-    isNumber(dataSize) &&
-    isNumber(dataFrom) &&
-    isString(sortBy) &&
-    isString(sortType) &&
-    isArray(includeFieldsOnResult) &&
-    isString(collapsebleField) &&
-    isArray(filters);
-  return isValidRequest;
+  let message = { value: "" };
+  if (!isString(queryToSearch)) addMessage(message, "queryToSearch");
+  if (!isBoolean(isNumberWithIncludeSearch))
+    addMessage(message, "isNumberWithIncludeSearch");
+  if (!isArray(selectedIncludes)) addMessage(message, "selectedIncludes");
+  if (!isNumber(dataSize)) message += "dataSize, ";
+  if (!isNumber(dataFrom)) message += "dataFrom, ";
+  if (!isString(sortBy)) message += "sortBy, ";
+  if (!isString(sortType)) message += "sortType, ";
+  if (!isArray(includeFieldsOnResult))
+    addMessage(message, "includeFieldsOnResult");
+  if (!isString(collapsebleField)) addMessage(message, "collapsebleField");
+  if (!isArray(filters)) addMessage(message, "filters");
+
+  if (message.value.length === 0) message.value = "ok";
+  return message.value;
 };

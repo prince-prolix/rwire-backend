@@ -16,7 +16,7 @@ export const getAggregationDataNumberSearchQuery = async (
   const finalSearchQuery = queryToSearch;
   const isValidQuery = validationQuery(finalSearchQuery);
 
-  if (!isValidQuery) return "syntax error in queryToSearch";
+  if (!isValidQuery) return "syntax error";
   const processedQuery = queryProcess(finalSearchQuery);
   const parser = peggy.parse(processedQuery);
   let dummyWindow = { origQuery: processedQuery };

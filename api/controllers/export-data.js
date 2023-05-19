@@ -9,7 +9,7 @@ import { validateTypes } from "../../exportData/validate.js";
  * It returns one of the following things:
  * 1. Required parameters not given or datatype not matching :
  *    400 and bad request error message
- * 3. If it works, it fetches data from elasticsearch for
+ * 2. If it works, it fetches data from elasticsearch for
  *    given query and return it as response to client. It fetches
  *    documents in bulk. ( As of now 10000 records)
  */
@@ -24,8 +24,9 @@ export const getExportData = async (request, response) => {
     includeFieldsOnResult,
     filters,
   };
-  if (!validateTypes(requestOptions)) {
-    badRequest({ response });
+  const validMessage = validateTypes(requestOptions);
+  if (validMessage !== "ok") {
+    badRequest({ response, message: validMessage });
     return;
   }
   let elasticQuery;

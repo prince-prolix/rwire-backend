@@ -44,7 +44,7 @@ import { getExportData } from "../controllers/export-data.js";
  *         description: returns records in bulk ( currently - 500 , which can be upto 10000 )
 
  *       400:
- *         description: malformed request
+ *         description: bad request
  *       502:
  *         description: upstream server error
  *       500:

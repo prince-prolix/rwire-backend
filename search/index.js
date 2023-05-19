@@ -12,7 +12,7 @@ export const getElasticQuerySearch = async (queryToSearch, options = {}) => {
 
   const isValidQuery = validationQuery(queryToSearch);
 
-  if (!isValidQuery) return "syntax error in queryToSearch";
+  if (!isValidQuery) return "syntax error";
   const processedQuery = queryProcess(queryToSearch);
   try {
     if (isNumberWithIncludeSearch) {

@@ -25,7 +25,6 @@ export const getDataFromElastic = async ({
   const readStream = got.stream(url, options);
 
   readStream.on("response", async (res) => {
-    //console.log(res);
     // here we recieve response headers from elastic search.
     // which contains status code etc.
     response.writeHead(200, { "Content-Type": "application/json" });
@@ -90,11 +89,9 @@ export const getDataFromElasticScrollAPI = async ({
       response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify(result));
     const scroll_size = data["hits"]["hits"].length;
-    console.log("scroll_size ", scroll_size);
     if (!scroll_size > 0) {
       break;
     }
   }
   response.end();
-  console.log("done");
 };

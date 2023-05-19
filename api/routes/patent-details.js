@@ -30,7 +30,7 @@ import { getPatentDetails } from "../controllers/patent-details.js";
  *         description: returns record for given publication number
 
  *       400:
- *         description: malformed request
+ *         description: bad request
  *       502:
  *         description: upstream server error
  *       500:

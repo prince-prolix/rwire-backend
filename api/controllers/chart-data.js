@@ -36,8 +36,9 @@ export const getChartData = async (request, response) => {
     isMultiSeries,
     topNumber,
   };
-  if (!validateTypes(requestOptions)) {
-    badRequest({ response });
+  const validMessage = validateTypes(requestOptions);
+  if (validMessage !== "ok") {
+    badRequest({ response, message: validMessage });
     return;
   }
   let elasticQuery;

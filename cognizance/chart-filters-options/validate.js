@@ -4,26 +4,30 @@ import {
   isNumber,
   isString,
 } from "../../api/utils/validation.js";
+import { addMessage } from "../../utils/helper-functions.js";
 
 export const validateTypes = (requestParams) => {
   const {
     queryToSearch,
-    isNumberWithIncludeSearch = false,
-    selectedIncludes = [],
-    filters = [],
-    chartFilters = [],
+    isNumberWithIncludeSearch,
+    selectedIncludes,
+    filters,
+    chartFilters,
     aggregationField,
-    aggregationFilterSearchtext = "",
-    aggregationSize = 10,
+    aggregationFilterSearchtext,
+    aggregationSize,
   } = requestParams;
-  const isValidRequest =
-    isString(queryToSearch) &&
-    isBoolean(isNumberWithIncludeSearch) &&
-    isArray(selectedIncludes) &&
-    isArray(filters) &&
-    isArray(chartFilters) &&
-    isString(aggregationField) &&
-    isString(aggregationFilterSearchtext) &&
-    isNumber(aggregationSize);
-  return isValidRequest;
+  let message = { value: "" };
+  if (!isString(queryToSearch)) addMessage(message, "queryToSearch");
+  if (!isBoolean(isNumberWithIncludeSearch))
+    addMessage(message, "isNumberWithIncludeSearch");
+  if (!isArray(selectedIncludes)) addMessage(message, "selectedIncludes");
+  if (!isArray(filters)) addMessage(message, "filters");
+  if (!isArray(chartFilters)) addMessage(message, "chartFilters");
+  if (!isString(aggregationField)) addMessage(message, "aggregationField");
+  if (!isString(aggregationFilterSearchtext))
+    addMessage(message, "aggregationFilterSearchtext");
+  if (!isNumber(aggregationSize)) addMessage(message, "aggregationSize");
+  if (message.value.length === 0) message.value = "ok";
+  return message.value;
 };

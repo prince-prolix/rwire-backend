@@ -80,7 +80,7 @@ import { getChartFiltersOptions } from "../controllers/chart-filters-options.js"
  *         description: returns searched filters options for chart data
 
  *       400:
- *         description: malformed request
+ *         description: bad request
  *       502:
  *         description: upstream server error
  *       500:

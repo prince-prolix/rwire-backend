@@ -86,7 +86,7 @@ import { getChartData } from "../controllers/chart-data.js";
  *         description: returns searched records for chart data
 
  *       400:
- *         description: malformed request
+ *         description: bad request
  *       502:
  *         description: upstream server error
  *       500:

@@ -46,7 +46,7 @@ import { getCount } from "../controllers/count.js";
  *         description: returns count of records
 
  *       400:
- *         description: malformed request
+ *         description: bad request
  *       502:
  *         description: upstream server error
  *       500:

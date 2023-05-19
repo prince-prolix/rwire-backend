@@ -14,10 +14,10 @@ export const getElasticQueryFilterOptions = async (queryToSearch, options) => {
   const { fields, filtersSearchText, collapsebleField } = options;
 
   const isValidQuery = validationQuery(queryToSearch);
-  if (!isValidQuery) return "syntax error in queryToSearch";
+  if (!isValidQuery) return "syntax error";
   const aggData = aggregate(fields, filtersSearchText, collapsebleField);
   let elasticQuery = await getElasticQuerySearch(queryToSearch, options);
-  if (elasticQuery === "syntax error in queryToSearch") {
+  if (elasticQuery === "syntax error") {
     return elasticQuery;
   }
   let elasticQueryObj = JSON.parse(elasticQuery);

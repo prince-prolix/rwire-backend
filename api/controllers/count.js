@@ -10,14 +10,15 @@ import { badRequest, serverError } from "../utils/send-response.js";
  * It returns one of the following things:
  * 1. Required parameters not given or datatype not matching :
  *    400 and bad request error message
- * 3. If it works, it fetches count ( number hits / documents ) from elasticsearch
+ * 2. If it works, it fetches count ( number hits / documents ) from elasticsearch
  *    for given query and return it as response to client
  */
 export const getCount = async (request, response) => {
   const { queryToSearch, filters = [] } = request.body;
   const requestOptions = { queryToSearch, filters };
-  if (!validateTypes(requestOptions)) {
-    badRequest({ response });
+  const validMessage = validateTypes(requestOptions);
+  if (validMessage !== "ok") {
+    badRequest({ response, message: validMessage });
     return;
   }
   let elasticQuery;

@@ -32,8 +32,9 @@ export const getFilterOptions = async (request, response) => {
     collapsebleField,
     filters,
   };
-  if (!validateTypes(requestOptions)) {
-    badRequest({ response });
+  const validMessage = validateTypes(requestOptions);
+  if (validMessage !== "ok") {
+    badRequest({ response, message: validMessage });
     return;
   }
   let elasticQuery;

@@ -1,10 +1,10 @@
 /**
  * isSyntaxError function returns one of the following things:
- * 1. true, if given string is equal to "syntax error in queryToSearch"
+ * 1. true, if given string is equal to "syntax error"
  * 2. false, otherwise.
  */
 export const isSyntaxError = (message) => {
-  if (message === "syntax error in queryToSearch") {
+  if (message === "syntax error") {
     return true;
   } else false;
 };
