@@ -19,7 +19,7 @@ export const getElasticQueryChartFiltersOptions = async (
     chartFilters,
   } = requestOptions;
   let elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
-  if (elasticQuery === "syntax error") {
+  if (elasticQuery === "syntax error in queryToSearch") {
     return elasticQuery;
   }
   let elasticQueryObj = JSON.parse(elasticQuery);

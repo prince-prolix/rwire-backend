@@ -44,12 +44,13 @@ import { getCount } from "../controllers/count.js";
  *     responses:
  *       200:
  *         description: returns count of records
- *       404:
- *         description: queryToSearch not found
+
  *       400:
- *         description: syntax error in queryToSearch
+ *         description: malformed request
+ *       502:
+ *         description: upstream server error
  *       500:
- *         description: server error
+ *         description: unexpected server error
  */
 
 export const connectCountRoute = (router) => {

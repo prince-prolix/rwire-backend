@@ -73,7 +73,7 @@ import { getSearch } from "../controllers/search.js";
  *                     - nec corporation
  *             sample2:
  *               value:
- *                 queryToSearch: PN=(EP1503608A2 OR EP1463247A2)
+ *                 queryToSearch: PN=(EP1500608A2 OR EP1463247A2)
  *                 isNumberWithIncludeSearch: true,
  *                 selectedIncludes:
  *                   - BCP
@@ -92,12 +92,12 @@ import { getSearch } from "../controllers/search.js";
  *     responses:
  *       200:
  *         description: returns searched records
- *       404:
- *         description: queryToSearch not found
  *       400:
- *         description: syntax error in queryToSearch
+ *         description: malformed request
+ *       502:
+ *         description: upstream server error
  *       500:
- *         description: server error
+ *         description: unexpected server error
  */
 export const connectSearchRoute = (router) => {
   router.route("/search").post(getSearch);

@@ -9,11 +9,14 @@ import { getCitationAndFamilyData } from "../resources/data/citation-and-family.
  * If given query is valid then it processes and parses it along with options,
  * generate and return final elastic query.
  */
-export const getAggregationDataNumberSearchQuery = (queryToSearch, options) => {
+export const getAggregationDataNumberSearchQuery = async (
+  queryToSearch,
+  options
+) => {
   const finalSearchQuery = queryToSearch;
   const isValidQuery = validationQuery(finalSearchQuery);
 
-  if (!isValidQuery) return "syntax error";
+  if (!isValidQuery) return "syntax error in queryToSearch";
   const processedQuery = queryProcess(finalSearchQuery);
   const parser = peggy.parse(processedQuery);
   let dummyWindow = { origQuery: processedQuery };

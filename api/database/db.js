@@ -1,5 +1,6 @@
 import { got } from "got";
 import { defaultHeaders } from "../../utils/constant.js";
+import { serverError } from "../utils/send-response.js";
 
 /**
  *  getDataFromElastic fetches data using given url, body
@@ -38,7 +39,7 @@ export const getDataFromElastic = async ({
   // })
   readStream.once("error", (error) => {
     console.log("logging this error", error.message);
-    response.status(500).json({ message: "server error" });
+    serverError({ status: 502, response });
   });
 };
 /**
@@ -77,7 +78,7 @@ export const getDataFromElasticScrollAPI = async ({
     if (data.error) {
       console.log("logging this error", data.error);
       if (page === 1) {
-        response.status(500).json({ message: "server error" });
+        serverError({ status: 502, response });
       } else {
         response.end("server error");
       }

@@ -15,7 +15,7 @@ export const getElasticQueryChartData = async (
     requestOptions;
   const aggs = distinctAggQuery(field1, field2, isMultiSeries, topNumber);
   let elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
-  if (elasticQuery === "syntax error") {
+  if (elasticQuery === "syntax error in queryToSearch") {
     return elasticQuery;
   }
   let elasticQueryObj = JSON.parse(elasticQuery);

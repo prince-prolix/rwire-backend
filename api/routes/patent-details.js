@@ -12,7 +12,7 @@ import { getPatentDetails } from "../controllers/patent-details.js";
  *         queryToSearch:
  *           type: string
  *       example:
- *         queryToSearch: EP1503608A2
+ *         queryToSearch: EP1500608A2
  */
 /**
  * @swagger
@@ -28,12 +28,13 @@ import { getPatentDetails } from "../controllers/patent-details.js";
  *     responses:
  *       200:
  *         description: returns record for given publication number
- *       404:
- *         description: queryToSearch not found
+
  *       400:
- *         description: syntax error in queryToSearch
+ *         description: malformed request
+ *       502:
+ *         description: upstream server error
  *       500:
- *         description: server error
+ *         description: unexpected server error
  */
 export const connectPatentDetailsRoute = (router) => {
   router.route("/patent-details").post(getPatentDetails);

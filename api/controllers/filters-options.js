@@ -2,12 +2,14 @@ import { url } from "../../utils/constant.js";
 import { getElasticQueryFilterOptions } from "../../filterOptions/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isSyntaxError, isValidField } from "../utils/validation.js";
+import { validateTypes } from "../../filterOptions/validate.js";
+import { badRequest, serverError } from "../utils/send-response.js";
 /**
  * getFilterOptions is a controller for "/filters-options" route.
  * It returns one of the following things:
- * 1. queryToSearch not found : 404 and not found error message
- * 2. syantax error in query : 400 and bad request error message
- * 3. If it works, it fetches filters options from elasticsearch
+ * 1. Required parameters not given or datatype not matching :
+ *    400 and bad request error message
+ * 2. If it works, it fetches filters options from elasticsearch
  *    and return it as response to client
  */
 export const getFilterOptions = async (request, response) => {
@@ -20,10 +22,7 @@ export const getFilterOptions = async (request, response) => {
     collapsebleField = "PN_B",
     filters = [],
   } = request.body;
-  if (!isValidField(queryToSearch)) {
-    response.status(404).json({ message: "body must contain queryToSearch" });
-    return;
-  }
+
   const requestOptions = {
     queryToSearch,
     isNumberWithIncludeSearch,
@@ -33,12 +32,23 @@ export const getFilterOptions = async (request, response) => {
     collapsebleField,
     filters,
   };
-  let elasticQuery = await getElasticQueryFilterOptions(
-    queryToSearch,
-    requestOptions
-  );
+  if (!validateTypes(requestOptions)) {
+    badRequest({ response });
+    return;
+  }
+  let elasticQuery;
+  try {
+    elasticQuery = await getElasticQueryFilterOptions(
+      queryToSearch,
+      requestOptions
+    );
+  } catch (err) {
+    console.log(err);
+    serverError({ response });
+    return;
+  }
   if (isSyntaxError(elasticQuery)) {
-    response.status(400).json({ message: "syntax error" });
+    badRequest({ message: "syntax error in queryToSearch", response });
     return;
   }
   getDataFromElastic({ url: `${url}/_search`, elasticQuery, response });

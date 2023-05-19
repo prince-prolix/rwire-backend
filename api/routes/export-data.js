@@ -15,8 +15,6 @@ import { getExportData } from "../controllers/export-data.js";
  *           type: array
  *           items:
  *             type: string
- *         collapsebleField:
- *           type: string
  *         filters:
  *           type: array
  *           items:
@@ -36,21 +34,21 @@ import { getExportData } from "../controllers/export-data.js";
  *             $ref: '#/components/schemas/export-data-request'
  *           example:
  *             queryToSearch: SS=(mobile)
- *             selectedFields:
+ *             includeFieldsOnResult:
  *               - AB_EN
  *               - AD
  *               - AA_EN
- *             collapsebleField: PN_B
  *
  *     responses:
  *       200:
  *         description: returns records in bulk ( currently - 500 , which can be upto 10000 )
- *       404:
- *         description: queryToSearch not found
+
  *       400:
- *         description: syntax error in queryToSearch
+ *         description: malformed request
+ *       502:
+ *         description: upstream server error
  *       500:
- *         description: server error
+ *         description: unexpected server error
  */
 
 export const connectExportDataRoute = (router) => {

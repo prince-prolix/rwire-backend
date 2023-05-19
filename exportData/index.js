@@ -15,7 +15,7 @@ export const getElasticQueryExportData = async (
 ) => {
   const { filters, includeFieldsOnResult, collapsebleField } = options;
   const isValidQuery = validationQuery(queryToSearch);
-  if (!isValidQuery) return "syntax error";
+  if (!isValidQuery) return "syntax error in queryToSearch";
   const sample = generateFilterKeysQuery(filters);
 
   const processedQuery = queryProcess(queryToSearch);
