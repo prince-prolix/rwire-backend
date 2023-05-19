@@ -22,7 +22,7 @@ import { getChartData } from "../controllers/chart-data.js";
  *         field2:
  *           type: string
  *         topNumber:
- *           type: number
+ *           type: string
  *         isMultiSeries:
  *           type: boolean
  *         filters:
@@ -62,7 +62,7 @@ import { getChartData } from "../controllers/chart-data.js";
  *                 queryToSearch: SS=(mobile)
  *                 field1: "PRY"
  *                 field2: "PN_B"
- *                 topNumber: 10
+ *                 topNumber: "10"
  *                 filters:
  *                   - CA_EN:
  *                       - nokia corporation
@@ -80,7 +80,7 @@ import { getChartData } from "../controllers/chart-data.js";
  *                   - BCP
  *                 field1: "PRY"
  *                 field2: "PN_B"
- *                 topNumber: 10
+ *                 topNumber: "10"
  *     responses:
  *       200:
  *         description: returns searched records for chart data

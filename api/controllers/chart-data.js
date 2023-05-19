@@ -22,7 +22,7 @@ export const getChartData = async (request, response) => {
     field1,
     field2,
     isMultiSeries = false,
-    topNumber = 10,
+    topNumber = "10",
   } = request.body;
 
   const requestOptions = {
