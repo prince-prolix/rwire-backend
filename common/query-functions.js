@@ -38,7 +38,7 @@ export const validationQuery = (rawQuery) => {
     generateQuery(dummyWindow, parser, true);
     return true;
   } catch (e) {
-    console.log("syntax error ", e);
+    console.log("syntax error ", e.message);
     return false;
   }
 };

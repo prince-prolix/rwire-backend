@@ -13,7 +13,11 @@ import { isSyntaxError, isValidField } from "../utils/validation.js";
  *    publication number and aggregation field such as BCP- backward citation
  *    and return it as response to client
  */
-export const getAggregationDataNumberSearch = async (request, response, next) => {
+export const getAggregationDataNumberSearch = async (
+  request,
+  response,
+  next
+) => {
   const { queryToSearch, selectedIncludes = [] } = request.body;
   if (!isValidField(queryToSearch)) {
     badRequest({ message: "body must contain queryToSearch", response });
@@ -30,12 +34,14 @@ export const getAggregationDataNumberSearch = async (request, response, next) =>
       requestOptions
     );
   } catch (err) {
-        next(serverError({}));
+    next(serverError({}));
     return;
   }
 
   if (isSyntaxError(elasticQuery)) {
-    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
+    next(
+      badRequestError({ response, message: "syntax error in queryToSearch" })
+    );
     return;
   }
 

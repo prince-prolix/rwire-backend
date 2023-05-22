@@ -29,7 +29,7 @@ export const getElasticCountQuery = (rawQuery, options = {}) => {
     };
     return JSON.stringify(queryObj);
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
     success = false;
   }
 

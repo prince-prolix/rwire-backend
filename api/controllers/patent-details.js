@@ -23,11 +23,13 @@ export const getPatentDetails = async (request, response, next) => {
   try {
     elasticQuery = await getPatentDetailsQuery(queryToSearch);
   } catch (err) {
-        next(serverError({}));
+    next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
+    next(
+      badRequestError({ response, message: "syntax error in queryToSearch" })
+    );
     return;
   }
   getDataFromElastic({ url: `${url}/_search`, elasticQuery, response, next });

@@ -35,3 +35,17 @@ export const isArray = (field) => {
 export const isObject = (field) => {
   return typeof field === "object";
 };
+export const isValidFilters = (filters) => {
+  let valid = true;
+  if (!isArray(filters)) {
+    valid = false;
+  } else {
+    filters.forEach((filter) => {
+      let firstValue = Object.values(filter)[0];
+      if (!isArray(firstValue)) {
+        valid = false;
+      }
+    });
+  }
+  return valid;
+};

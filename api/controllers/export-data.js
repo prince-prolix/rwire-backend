@@ -36,11 +36,13 @@ export const getExportData = async (request, response, next) => {
       requestOptions
     );
   } catch (err) {
-        next(serverError({}));
+    next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
+    next(
+      badRequestError({ response, message: "syntax error in queryToSearch" })
+    );
     return;
   }
   getDataFromElasticScrollAPI({ url: `${url}`, elasticQuery, response, next });

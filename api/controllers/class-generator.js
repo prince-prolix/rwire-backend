@@ -3,6 +3,7 @@ import { getElasticQueryClassGenerator } from "../../class-generator/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isValidField } from "../utils/validation.js";
 import { badRequestError, serverError } from "../utils/send-response.js";
+import { validateTypes } from "../../class-generator/validate.js";
 /**
  * getClassRecords is a controller for "/class" route.
  * It returns one of the following things:
@@ -15,15 +16,16 @@ import { badRequestError, serverError } from "../utils/send-response.js";
 export const getClassRecords = async (request, response, next) => {
   const { class: classes, keyword, types } = request.body;
   const queryValues = { classes, keyword, types };
-  if (!isValidField(classes) && !isValidField(keyword)) {
-    badRequest({ message: "body must contain class or keyword", response });
+  const validMessage = validateTypes(queryValues);
+  if (validMessage !== "ok") {
+    next(badRequestError({ response, message: validMessage }));
     return;
   }
   let elasticQuery;
   try {
     elasticQuery = await getElasticQueryClassGenerator(queryValues);
   } catch (err) {
-        next(serverError({}));
+    next(serverError({}));
     return;
   }
   getDataFromElastic({

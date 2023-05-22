@@ -2,7 +2,11 @@ import express from "express";
 import { router as rwire_routes } from "../api/routes/rwire-routes.js";
 import swaggerUI from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import { errorLogger, errorResponder, invalidPathHandler } from "./utils/errorHandlingMiddlerware.js";
+import {
+  errorLogger,
+  errorResponder,
+  invalidPathHandler,
+} from "./utils/errorHandlingMiddlerware.js";
 const app = express();
 const PORT = 8000;
 const options = {
@@ -30,16 +34,15 @@ app.use("/api/rwire", rwire_routes); // attatch route handlers
 
 // Attach the first Error handling Middleware
 // function defined above (which logs the error)
-app.use(errorLogger)
+app.use(errorLogger);
 
 // Attach the second Error handling Middleware
 // function defined above (which sends back the response)
-app.use(errorResponder)
+app.use(errorResponder);
 
 // Attach the fallback Middleware
 // function which sends back the response for invalid paths)
-app.use(invalidPathHandler)
-
+app.use(invalidPathHandler);
 
 const start = async () => {
   try {

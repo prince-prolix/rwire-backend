@@ -51,7 +51,9 @@ export const getSearch = async (request, response, next) => {
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    next(badRequestError({ response, message: "syntax error in queryToSearch" }));
+    next(
+      badRequestError({ response, message: "syntax error in queryToSearch" })
+    );
     return;
   }
   getDataFromElastic({ url: `${url}/_search`, elasticQuery, response, next });

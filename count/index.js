@@ -29,7 +29,7 @@ export const getFinalElasticCountQuery = async (
       return getElasticCountQuery(processedQuery, options);
     }
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
     throw new Error("Something went wrong");
   }
 };
