@@ -2,7 +2,7 @@ import { url } from "../../utils/constant.js";
 import { getElasticQueryChartFiltersOptions } from "../../cognizance/chart-filters-options/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isSyntaxError } from "../utils/validation.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 import { validateTypes } from "../../cognizance/chart-filters-options/validate.js";
 /**
  * getChartFiltersOptions is a controller for "/chart-filters-options" route.
@@ -12,7 +12,7 @@ import { validateTypes } from "../../cognizance/chart-filters-options/validate.j
  * 2. If it works, it fetches filters options for chart data from elasticsearch
  *    and return it as response to client
  */
-export const getChartFiltersOptions = async (request, response) => {
+export const getChartFiltersOptions = async (request, response, next) => {
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
@@ -36,7 +36,7 @@ export const getChartFiltersOptions = async (request, response) => {
   };
   const validMessage = validateTypes(requestOptions);
   if (validMessage !== "ok") {
-    badRequest({ response, message: validMessage });
+    next(badRequestError({ response, message: validMessage }));
     return;
   }
   let elasticQuery;
@@ -46,13 +46,12 @@ export const getChartFiltersOptions = async (request, response) => {
       requestOptions
     );
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+        next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    badRequest({ message: "syntax error in queryToSearch", response });
+    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
     return;
   }
-  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response });
+  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response, next });
 };

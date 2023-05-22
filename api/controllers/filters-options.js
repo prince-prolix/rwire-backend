@@ -3,7 +3,7 @@ import { getElasticQueryFilterOptions } from "../../filterOptions/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isSyntaxError, isValidField } from "../utils/validation.js";
 import { validateTypes } from "../../filterOptions/validate.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 /**
  * getFilterOptions is a controller for "/filters-options" route.
  * It returns one of the following things:
@@ -12,7 +12,7 @@ import { badRequest, serverError } from "../utils/send-response.js";
  * 2. If it works, it fetches filters options from elasticsearch
  *    and return it as response to client
  */
-export const getFilterOptions = async (request, response) => {
+export const getFilterOptions = async (request, response, next) => {
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
@@ -34,7 +34,7 @@ export const getFilterOptions = async (request, response) => {
   };
   const validMessage = validateTypes(requestOptions);
   if (validMessage !== "ok") {
-    badRequest({ response, message: validMessage });
+    next(badRequestError({ response, message: validMessage }));
     return;
   }
   let elasticQuery;
@@ -44,13 +44,12 @@ export const getFilterOptions = async (request, response) => {
       requestOptions
     );
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+        next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    badRequest({ message: "syntax error in queryToSearch", response });
+    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
     return;
   }
-  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response });
+  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response, next });
 };

@@ -4,6 +4,7 @@ import {
   isNumber,
   isString,
 } from "../api/utils/validation.js";
+import { addMessage } from "../utils/helper-functions.js";
 
 export const validateTypes = (requestParams) => {
   const {
@@ -23,10 +24,10 @@ export const validateTypes = (requestParams) => {
   if (!isBoolean(isNumberWithIncludeSearch))
     addMessage(message, "isNumberWithIncludeSearch");
   if (!isArray(selectedIncludes)) addMessage(message, "selectedIncludes");
-  if (!isNumber(dataSize)) message += "dataSize, ";
-  if (!isNumber(dataFrom)) message += "dataFrom, ";
-  if (!isString(sortBy)) message += "sortBy, ";
-  if (!isString(sortType)) message += "sortType, ";
+  if (!isNumber(dataSize)) addMessage(message, "dataSize");
+  if (!isNumber(dataFrom)) addMessage(message, "dataFrom");
+  if (!isString(sortBy)) addMessage(message, "sortBy");
+  if (!isString(sortType)) addMessage(message, "sortType");
   if (!isArray(includeFieldsOnResult))
     addMessage(message, "includeFieldsOnResult");
   if (!isString(collapsebleField)) addMessage(message, "collapsebleField");

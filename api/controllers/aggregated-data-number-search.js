@@ -1,7 +1,7 @@
 import { getAggregationDataNumberSearchQuery } from "../../aggregatedDataNumberSearch/index.js";
 import { url } from "../../utils/constant.js";
 import { getDataFromElastic } from "../database/db.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 import { isSyntaxError, isValidField } from "../utils/validation.js";
 /**
  * getAggregationDataNumberSearch is a controller for
@@ -13,7 +13,7 @@ import { isSyntaxError, isValidField } from "../utils/validation.js";
  *    publication number and aggregation field such as BCP- backward citation
  *    and return it as response to client
  */
-export const getAggregationDataNumberSearch = async (request, response) => {
+export const getAggregationDataNumberSearch = async (request, response, next) => {
   const { queryToSearch, selectedIncludes = [] } = request.body;
   if (!isValidField(queryToSearch)) {
     badRequest({ message: "body must contain queryToSearch", response });
@@ -30,15 +30,14 @@ export const getAggregationDataNumberSearch = async (request, response) => {
       requestOptions
     );
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+        next(serverError({}));
     return;
   }
 
   if (isSyntaxError(elasticQuery)) {
-    badRequest({ message: "syntax error in queryToSearch", response });
+    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
     return;
   }
 
-  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response });
+  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response, next });
 };

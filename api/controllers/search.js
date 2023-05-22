@@ -2,7 +2,7 @@ import { url } from "../../utils/constant.js";
 import { getElasticQuerySearch } from "../../search/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isSyntaxError } from "../utils/validation.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 import { validateTypes } from "../../search/validate.js";
 /**
  * getSearch is a controller for "/search" route.
@@ -12,7 +12,7 @@ import { validateTypes } from "../../search/validate.js";
  * 2. If it works, it fetches data ( documents ) from elasticsearch
  *    for given query and return it as response to client
  */
-export const getSearch = async (request, response) => {
+export const getSearch = async (request, response, next) => {
   const {
     queryToSearch,
     isNumberWithIncludeSearch = false,
@@ -40,20 +40,19 @@ export const getSearch = async (request, response) => {
   };
   const validMessage = validateTypes(requestOptions);
   if (validMessage !== "ok") {
-    badRequest({ response, message: validMessage });
+    next(badRequestError({ response, message: validMessage }));
     return;
   }
   let elasticQuery;
   try {
     elasticQuery = await getElasticQuerySearch(queryToSearch, requestOptions);
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+    next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    badRequest({ response, message: "syntax error in queryToSearch" });
+    next(badRequestError({ response, message: "syntax error in queryToSearch" }));
     return;
   }
-  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response });
+  getDataFromElastic({ url: `${url}/_search`, elasticQuery, response, next });
 };

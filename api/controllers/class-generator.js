@@ -2,7 +2,7 @@ import { classesSearchUrl } from "../../utils/constant.js";
 import { getElasticQueryClassGenerator } from "../../class-generator/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isValidField } from "../utils/validation.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 /**
  * getClassRecords is a controller for "/class" route.
  * It returns one of the following things:
@@ -12,7 +12,7 @@ import { badRequest, serverError } from "../utils/send-response.js";
  *    given value on class and/or keyword field and return it as
  *    response to client
  */
-export const getClassRecords = async (request, response) => {
+export const getClassRecords = async (request, response, next) => {
   const { class: classes, keyword, types } = request.body;
   const queryValues = { classes, keyword, types };
   if (!isValidField(classes) && !isValidField(keyword)) {
@@ -23,8 +23,7 @@ export const getClassRecords = async (request, response) => {
   try {
     elasticQuery = await getElasticQueryClassGenerator(queryValues);
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+        next(serverError({}));
     return;
   }
   getDataFromElastic({

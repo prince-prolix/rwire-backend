@@ -1,16 +1,18 @@
-export const badRequest = ({
+export const badRequestError = ({
   status = 400,
   defaultMessage = "bad request , check",
   message = "",
-  response,
 }) => {
-  response.status(status).json({ message: defaultMessage + " : " + message });
+  let error = new Error(defaultMessage + " : " + message);
+  error.status =status;
+  return error;
 };
 
 export const serverError = ({
   status = 500,
-  message = "server error",
-  response,
+  message = "server error"
 }) => {
-  response.status(status).json({ message });
+  let error = new Error(message);
+  error.status =status;
+  return error;
 };

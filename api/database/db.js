@@ -38,7 +38,7 @@ export const getDataFromElastic = async ({
   // })
   readStream.once("error", (error) => {
     console.log("logging this error", error.message);
-    serverError({ status: 502, response });
+    next(serverError({ status: 502, response }));
   });
 };
 /**
@@ -54,6 +54,7 @@ export const getDataFromElasticScrollAPI = async ({
   method = "post",
   headers,
   response,
+  next
 }) => {
   const finalHeaders = {
     ...defaultHeaders,
@@ -77,7 +78,7 @@ export const getDataFromElasticScrollAPI = async ({
     if (data.error) {
       console.log("logging this error", data.error);
       if (page === 1) {
-        serverError({ status: 502, response });
+        next(serverError({ status: 502}));
       } else {
         response.end("server error");
       }

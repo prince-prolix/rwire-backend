@@ -3,7 +3,7 @@ import { getFinalElasticCountQuery } from "../../count/index.js";
 import { getDataFromElastic } from "../database/db.js";
 import { isSyntaxError } from "../utils/validation.js";
 import { validateTypes } from "../../count/validate.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 
 /**
  * getCount is a controller for "/count" route.
@@ -13,12 +13,12 @@ import { badRequest, serverError } from "../utils/send-response.js";
  * 2. If it works, it fetches count ( number hits / documents ) from elasticsearch
  *    for given query and return it as response to client
  */
-export const getCount = async (request, response) => {
+export const getCount = async (request, response, next) => {
   const { queryToSearch, filters = [] } = request.body;
   const requestOptions = { queryToSearch, filters };
   const validMessage = validateTypes(requestOptions);
   if (validMessage !== "ok") {
-    badRequest({ response, message: validMessage });
+    next(badRequestError({ response, message: validMessage }));
     return;
   }
   let elasticQuery;
@@ -28,13 +28,12 @@ export const getCount = async (request, response) => {
       requestOptions
     );
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+        next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    badRequest({ message: "syntax error in queryToSearch", response });
+    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
     return;
   }
-  getDataFromElastic({ url: `${url}/_count`, elasticQuery, response });
+  getDataFromElastic({ url: `${url}/_count`, elasticQuery, response, next });
 };

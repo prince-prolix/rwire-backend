@@ -2,7 +2,7 @@ import { url } from "../../utils/constant.js";
 import { getElasticQueryExportData } from "../../exportData/index.js";
 import { getDataFromElasticScrollAPI } from "../database/db.js";
 import { isSyntaxError, isValidField } from "../utils/validation.js";
-import { badRequest, serverError } from "../utils/send-response.js";
+import { badRequestError, serverError } from "../utils/send-response.js";
 import { validateTypes } from "../../exportData/validate.js";
 /**
  * getExportData is a controller for "/export-data" route.
@@ -13,7 +13,7 @@ import { validateTypes } from "../../exportData/validate.js";
  *    given query and return it as response to client. It fetches
  *    documents in bulk. ( As of now 10000 records)
  */
-export const getExportData = async (request, response) => {
+export const getExportData = async (request, response, next) => {
   const {
     queryToSearch,
     includeFieldsOnResult = ["PN_B"],
@@ -26,7 +26,7 @@ export const getExportData = async (request, response) => {
   };
   const validMessage = validateTypes(requestOptions);
   if (validMessage !== "ok") {
-    badRequest({ response, message: validMessage });
+    next(badRequestError({ response, message: validMessage }));
     return;
   }
   let elasticQuery;
@@ -36,13 +36,12 @@ export const getExportData = async (request, response) => {
       requestOptions
     );
   } catch (err) {
-    console.log(err);
-    serverError({ response });
+        next(serverError({}));
     return;
   }
   if (isSyntaxError(elasticQuery)) {
-    badRequest({ message: "syntax error in queryToSearch", response });
+    next(badRequestError({ response, message: "syntax error in queryToSearch" }));;
     return;
   }
-  getDataFromElasticScrollAPI({ url: `${url}`, elasticQuery, response });
+  getDataFromElasticScrollAPI({ url: `${url}`, elasticQuery, response, next });
 };
